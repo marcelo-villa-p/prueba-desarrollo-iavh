@@ -2,6 +2,8 @@
 
 Este repositorio contiene el código fuente de la solución para la Prueba de Desarrollo del Programa de Evaluación y Monitoreo de la Biodiversidad del Instituto Alexander von Humboldt.
 
+La solución está construida utilizando Vue.js y el tablero de juego se dibuja con D3.js.
+
 ## Enunciado
 Desarrollar un juego de “Triqui” (Tic-tac-toe) con las siguientes características:
 
