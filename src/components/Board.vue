@@ -31,6 +31,9 @@ export default {
     },
     players() {
       return this.$store.getters.players;
+    },
+    plays() {
+      return this.$store.getters.plays;
     }
   },
   methods: {
@@ -170,8 +173,10 @@ export default {
     });
   },
   watch: {
-    winner() {
-      console.log('HOHOO');
+    plays() {
+      if (this.plays === 9) {
+        this.endGame();
+      }
     }
   }
 };

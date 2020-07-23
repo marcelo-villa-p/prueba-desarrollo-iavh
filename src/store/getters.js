@@ -7,5 +7,8 @@ export default {
   },
   players: state => {
     return state.players;
+  },
+  plays: state => {
+    return state.cells.filter(item => item.symbol).length;
   }
 }
