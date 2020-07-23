@@ -1,9 +1,20 @@
 <template>
-    <font-awesome-icon id="restart-icon" icon="redo-alt" />
+  <font-awesome-icon v-on:click="restartGame" id="restart-icon" icon="redo-alt" />
 </template>
 
 <style scoped>
 #restart-icon {
-    font-size: 4rem;
+  font-size: 4rem;
 }
 </style>
+
+<script>
+export default {
+  name: 'Restart',
+  methods: {
+    restartGame() {
+      this.$root.$emit('restart-game');
+    }
+  }
+}
+</script>

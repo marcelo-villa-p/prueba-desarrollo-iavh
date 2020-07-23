@@ -2,7 +2,7 @@
   <div id="app">
     <h1 id="title">Tic Tac Toe</h1>
     <div id="player-container">
-      <Player :color="'#1976d2'" :name="'Jugador 1'" :symbol="'x'"></Player>
+      <Player :first="true" :color="'#1976d2'" :name="'Jugador 1'" :symbol="'x'"></Player>
       <Controls></Controls>
       <Player :color="'#009688'" :name="'Jugador 2'" :symbol="'o'"></Player>
     </div>
@@ -25,6 +25,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  margin-bottom: 2rem;
 }
 </style>
 

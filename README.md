@@ -22,7 +22,7 @@ npm install
 npm run serve
 ```
 
-### Compilación y modificación para producción
+### Compilación para producción
 ```
 npm run build
 ```
