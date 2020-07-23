@@ -13,6 +13,7 @@ export default {
   name: 'Restart',
   methods: {
     restartGame() {
+      this.$store.dispatch('resetCells');
       this.$root.$emit('restart-game');
     }
   }

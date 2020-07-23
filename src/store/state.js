@@ -3,5 +3,7 @@ export default {
     'color': null,
     'name': null,
     'symbol': null,
-  }
+  },
+  'cells': [],
+  'players': []
 }

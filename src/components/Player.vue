@@ -47,6 +47,7 @@ export default {
     }
   },
   mounted() {
+    this.$store.dispatch('addPlayer', this.$props);
     if (this.active) {
       this.$store.dispatch('setActivePlayer', this.$props);
     }

@@ -25,6 +25,12 @@ export default {
   computed: {
     activePlayer() {
       return this.$store.getters.activePlayer;
+    },
+    cells() {
+      return this.$store.getters.cells;
+    },
+    players() {
+      return this.$store.getters.players;
     }
   },
   methods: {
@@ -40,13 +46,17 @@ export default {
       const cellHeight = height / 3;
       let x = 0;
       let y = 0;
+      let index = 0;
+      const symbol = null;
 
       // Create array with upper left corner coordinates for each cell
       const data = [];
-      for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
-          data.push({ x, y });
+      for (let row = 0; row < 3; row++) {
+        for (let col = 0; col < 3; col++) {
+          data.push({ x, y, row, col, index });
+          this.$store.dispatch('addCellData', { row, col, index, symbol });
           x += cellWidth;
+          index++;
         }
         x = 0;
         y += cellHeight;
@@ -60,16 +70,22 @@ export default {
         .append('rect')
           .on('click', (d, i, n) => {
             const rect = d3.select(n[i]);
-            if (this.activePlayer.symbol === 'o') {
+            const symbol = this.activePlayer.symbol;
+            this.$store.dispatch('setCellSymbol', { index: d.index, symbol: symbol })
+            if (symbol === 'o') {
               this.drawO(rect, this.activePlayer.color);
-            } else if (this.activePlayer.symbol === 'x') {
+            } else if (symbol === 'x') {
               this.drawX(rect, this.activePlayer.color);
             } else {
               console.error('Symbol must be either "x" or "o"');
             }
             rect.attr('pointer-events', 'none');  // Disable interaction
+            this.checkWinner();
             this.$root.$emit('toggle-active-player');
           })
+          .attr('data-row', d => d.row)
+          .attr('data-col', d => d.col)
+          .attr('data-index', d => d.index)
           .attr('x', (d) => d.x)
           .attr('y', (d) => d.y)
           .attr('width', cellWidth)
@@ -113,6 +129,38 @@ export default {
         .attr('y2', +rect.attr('y') + this.figurePadding)
         .attr('stroke', color)
         .attr('stroke-width', this.lineWidth);
+    },
+    checkTrio(trio, winnerSymbol) {
+      const symbols = new Array(...new Set(trio.map(item => item.symbol)));
+      if (symbols.length === 1 && !symbols.includes(undefined)) {
+        return symbols[0] ? symbols[0] : winnerSymbol;
+      } else {
+        return winnerSymbol;
+      }
+    },
+    checkWinner() {
+      let winnerSymbol = null;
+      // Check rows and columns
+      for (let i = 0; i < 3; i ++) {
+        winnerSymbol = this.checkTrio(this.cells.filter(item => item.row === i), winnerSymbol);
+        winnerSymbol = this.checkTrio(this.cells.filter(item => item.col === i), winnerSymbol);
+      }
+      // Check diagonals
+      winnerSymbol = this.checkTrio([0, 4, 8].map(i => this.cells[i]), winnerSymbol);
+      winnerSymbol = this.checkTrio([2, 4, 6].map(i => this.cells[i]), winnerSymbol);
+
+      if (winnerSymbol) {
+        const winnerName = this.players.find(player => player.symbol === winnerSymbol).name;
+        this.endGame(winnerName);
+      }
+    },
+    endGame(winnerName = null) {
+      this.svg.attr('pointer-events', 'none');
+      if (winnerName) {
+        alert(`Gana ${winnerName}`);
+      } else {
+        alert('Empate');
+      }
     }
   },
   mounted() {
@@ -120,6 +168,11 @@ export default {
     this.$root.$on('restart-game', () => {
       this.renderEmptyBoard();
     });
+  },
+  watch: {
+    winner() {
+      console.log('HOHOO');
+    }
   }
 };
 </script>
