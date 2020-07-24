@@ -6,14 +6,17 @@
 
 <style scoped>
 .name {
-  border: 3px solid;
   padding: 15px;
   font-size: calc(24px + 2vw);
   font-weight: 300;
 }
 
 .active {
-
+  background-color: var(--bg-hover-color);
+  color: white !important;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  transition: all 0.2s;
 }
 </style>
 
@@ -46,7 +49,11 @@ export default {
   },
   computed: {
     style() {
-      return `color: ${this.color}`;
+      return {
+        'color': this.color,
+        'border': `3px solid ${this.color}`,
+        '--bg-hover-color': this.color
+      }
     }
   },
   mounted() {
