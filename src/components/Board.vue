@@ -19,8 +19,6 @@ export default {
   name: 'Board',
   data() {
     return {
-      emptyCellHoverColor: '#50c763',
-      occupiedCellHoverColor: '#c75a50',
       figurePadding: 50,
       gridColor: 'black',
       lineWidth: 4,
