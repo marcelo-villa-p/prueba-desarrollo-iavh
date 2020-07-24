@@ -6,6 +6,8 @@ Este repositorio contiene el código fuente de la solución para la Prueba de De
 
 La solución está construida utilizando Vue.js y el tablero de juego se dibuja con D3.js.
 
+Para ver la aplicación en funcionamiento puede entrar al siguiente link: https://marcelo-villa-p.github.io/prueba-desarrollo-iavh/
+
 ## Enunciado
 Desarrollar un juego de “Triqui” (Tic-tac-toe) con las siguientes características:
 
