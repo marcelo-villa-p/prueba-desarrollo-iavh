@@ -187,6 +187,10 @@ export default {
       if (winnerSymbol) {
         const winnerName = this.players.find(player => player.symbol === winnerSymbol).name;
         this.endGame(winnerName);
+      } else {
+        if (this.plays == 9) {
+          this.endGame();
+        }
       }
     },
     endGame(winnerName = null) {
@@ -203,13 +207,6 @@ export default {
     this.$root.$on('restart-game', () => {
       this.renderEmptyBoard();
     });
-  },
-  watch: {
-    plays() {
-      if (this.plays === 9) {
-        this.endGame();
-      }
-    }
   }
 };
 </script>
