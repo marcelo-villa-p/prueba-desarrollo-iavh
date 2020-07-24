@@ -4,9 +4,11 @@
 
 <style scoped>
 #board-container {
-  width: 600px;
-  height: 600px;
   margin: auto;
+  width: 80vw;
+  height: 80vw;
+  max-width: 500px;
+  max-height: 500px;
 }
 </style>
 
@@ -17,6 +19,8 @@ export default {
   name: 'Board',
   data() {
     return {
+      emptyCellHoverColor: '#50c763',
+      occupiedCellHoverColor: '#c75a50',
       figurePadding: 50,
       gridColor: 'black',
       lineWidth: 4,
@@ -73,6 +77,13 @@ export default {
         .append('rect')
           .on('click', (d, i, n) => {
             const rect = d3.select(n[i]);
+            if (this.cells[d.index].symbol) {
+              return;  // Disable click but not hover
+            }
+            rect
+              .style('cursor', 'default')
+              .attr('fill', 'white')
+              .attr('opacity', 1);
             const symbol = this.activePlayer.symbol;
             this.$store.dispatch('setCellSymbol', { index: d.index, symbol: symbol })
             if (symbol === 'o') {
@@ -82,9 +93,27 @@ export default {
             } else {
               console.error('Symbol must be either "x" or "o"');
             }
-            rect.attr('pointer-events', 'none');  // Disable interaction
             this.checkWinner();
             this.$root.$emit('toggle-active-player');
+          })
+          .on('mouseover', (d, i, n) => {
+            const rect = d3.select(n[i]);
+            if (!this.cells[d.index].symbol) {
+              rect
+                .style('cursor', 'pointer')
+                .transition()
+                .attr('fill', this.activePlayer.color)
+                .attr('opacity', 0.5);
+            }
+          })
+          .on('mouseout', (d, i, n) => {
+            const rect = d3.select(n[i]);
+            rect
+              .style('cursor', 'default')
+              .transition()
+              .duration(200)
+              .attr('fill', 'white')
+              .attr('opacity', 1);
           })
           .attr('data-row', d => d.row)
           .attr('data-col', d => d.col)
@@ -113,9 +142,10 @@ export default {
         .attr('cx', +rect.attr('x') + (+rect.attr('width') / 2))
         .attr('cy', +rect.attr('y') + (+rect.attr('height') / 2))
         .attr('r', (+rect.attr('width') / 2) - this.figurePadding)
-        .attr('fill', 'white')
+        .attr('fill', 'none')
         .attr('stroke', color)
-        .attr('stroke-width', this.lineWidth);
+        .attr('stroke-width', this.lineWidth)
+        .attr('pointer-events', 'none');
     },
     drawX(rect, color) {
       this.svg.append('line')
@@ -124,14 +154,16 @@ export default {
         .attr('x2', +rect.attr('x') + +rect.attr('width') - this.figurePadding)
         .attr('y2', +rect.attr('y') + +rect.attr('height') - this.figurePadding)
         .attr('stroke', color)
-        .attr('stroke-width', this.lineWidth);
+        .attr('stroke-width', this.lineWidth)
+        .attr('pointer-events', 'none');
       this.svg.append('line')
         .attr('x1', +rect.attr('x') + this.figurePadding)
         .attr('y1', +rect.attr('y') + +rect.attr('height') - this.figurePadding)
         .attr('x2', +rect.attr('x') + +rect.attr('width') - this.figurePadding)
         .attr('y2', +rect.attr('y') + this.figurePadding)
         .attr('stroke', color)
-        .attr('stroke-width', this.lineWidth);
+        .attr('stroke-width', this.lineWidth)
+        .attr('pointer-events', 'none');
     },
     checkTrio(trio, winnerSymbol) {
       const symbols = new Array(...new Set(trio.map(item => item.symbol)));

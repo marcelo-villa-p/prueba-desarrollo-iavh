@@ -11,21 +11,24 @@
 </template>
 
 <style>
+@import '../node_modules/typeface-roboto/index.css';
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
 }
 #title {
+  margin: 3rem 0;
   color: #2c3e50;
-  font-size: 5rem;
+  font-size: calc(36px + 4vw);
+  font-weight: 100;
 }
 #player-container {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  margin-bottom: 2rem;
 }
 </style>
 

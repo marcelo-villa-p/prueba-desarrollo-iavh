@@ -4,6 +4,12 @@
   </div>
 </template>
 
+<style scoped>
+#controls-container {
+  position: relative;
+}
+</style>
+
 <script>
 import Restart from "./controls/Restart";
 

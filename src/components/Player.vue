@@ -1,12 +1,19 @@
 <template>
   <div>
-    <h1 id="name" :style="style">{{name}}</h1>
+    <h1 class="name" :style="style" :class="{ active }">{{name}}</h1>
   </div>
 </template>
 
 <style scoped>
-#name {
-  font-size: 3rem;
+.name {
+  border: 3px solid;
+  padding: 15px;
+  font-size: calc(24px + 2vw);
+  font-weight: 300;
+}
+
+.active {
+
 }
 </style>
 
@@ -40,10 +47,6 @@ export default {
   computed: {
     style() {
       return `color: ${this.color}`;
-    },
-    test() {
-      console.log(this.$store.getters.currentPlayer);
-      return true;
     }
   },
   mounted() {
